@@ -1,6 +1,6 @@
 package com.xyz.apis.payment.support.doc;
 
-import com.xyz.apis.payment.controller.PaymentController;
+import com.xyz.apis.payment.controller.AccountPaymentController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,7 +21,7 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(PaymentController.class.getPackage().getName()))
+                .apis(RequestHandlerSelectors.basePackage(AccountPaymentController.class.getPackage().getName()))
                 .build();
     }
 

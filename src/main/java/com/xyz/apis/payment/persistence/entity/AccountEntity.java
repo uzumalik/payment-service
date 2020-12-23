@@ -8,8 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -17,21 +20,19 @@ import java.io.Serializable;
 @Table(name = "ACCOUNT_DETAILS")
 @Getter
 @Setter
-public class AccountEntity implements Serializable {
+public class AccountDetails extends BaseEntity {
 
-
-    private static final long serialVersionUID = 2905774159242405483L;
+    private static final long serialVersionUID = 792105238433777524L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ACCOUNT_NUMBER")
     private long accountNumber;
-
-    private String firstName;
-
-    private String lastName;
 
     @Enumerated(EnumType.STRING)
     private Currency accountCurrency;
 
     private long currentBalance;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = )
 
 }
