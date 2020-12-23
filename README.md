@@ -24,11 +24,11 @@ use below arguments to activate profile on startup
 
 2. docker images --- List the docker images present in local registry
 
-3. docker stop <<container name>> --- Stop the docker running container
+3. docker stop <\<container name>> --- Stop the docker running container
 
-4. docker rm <<container name>> --- Remove the docker running container
+4. docker rm <\<container name>> --- Remove the docker running container
 
-#### prerequisite:
+#### Prerequisite:
 Docker needs to be installed.
 
 ### API Docs
@@ -37,4 +37,5 @@ Docker needs to be installed.
 ### Service Health and Info
 
 Health : http://localhost:9080/payments/actuator/health
+
 Info : http://localhost:9080/payments/actuator/info
