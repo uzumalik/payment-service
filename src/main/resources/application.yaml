@@ -28,3 +28,7 @@ info:
     name: ${name}
     version: ${version}
     description: ${description}
+
+payments:
+  account:
+    min-transfer-amount: 100

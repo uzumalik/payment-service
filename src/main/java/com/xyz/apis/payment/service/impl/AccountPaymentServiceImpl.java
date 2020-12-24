@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class AccountPaymentServiceImpl implements AccountPaymentService {
@@ -41,19 +42,24 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
     public Long performAccountPayment(AccountPaymentTransferRequest request) {
 
 
-        AccountDetails sourceAccount = accountRepository.getOne(request.getSourceAccount());
-        AccountDetails destinationAccount = accountRepository.getOne(request.getDestinationAccount());
+        Optional<AccountDetails> sourceAccount = accountRepository.findById(request.getSourceAccount());
+        Optional<AccountDetails> destinationAccount = accountRepository.findById(request.getDestinationAccount());
 
         paymentValidationService.validateAccountPaymentTransfer(sourceAccount, destinationAccount, request);
 
         // If payment validation successful, perform transfer
         // Debit the amount from source account
-        sourceAccount.setCurrentBalance(sourceAccount.getCurrentBalance() - request.getAmount());
+        sourceAccount.ifPresent( srcAccount ->{
+            srcAccount.setCurrentBalance(srcAccount.getCurrentBalance() - request.getAmount());
+            accountRepository.save(srcAccount);
+        });
+
 
         // Credit the amount to Destination account
-        destinationAccount.setCurrentBalance(destinationAccount.getCurrentBalance() + request.getAmount());
-        accountRepository.save(sourceAccount);
-        accountRepository.save(destinationAccount);
+        destinationAccount.ifPresent( destAccount ->{
+            destAccount.setCurrentBalance(destAccount.getCurrentBalance() + request.getAmount());
+            accountRepository.save(destAccount);
+        });
 
         // PUT an entry into transaction table
         AccountTransactions transaction =  accountTransactionsRepository.save(accountPaymentsMapper.toAccountTransactionEntity(request));

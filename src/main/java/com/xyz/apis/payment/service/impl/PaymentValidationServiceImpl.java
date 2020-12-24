@@ -1,13 +1,16 @@
 package com.xyz.apis.payment.service.impl;
 
+import com.xyz.apis.payment.common.PaymentConfig;
 import com.xyz.apis.payment.exception.ExceptionReason;
 import com.xyz.apis.payment.exception.PaymentServiceException;
 import com.xyz.apis.payment.payload.request.AccountPaymentTransferRequest;
 import com.xyz.apis.payment.persistence.entity.AccountDetails;
 import com.xyz.apis.payment.service.PaymentValidationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.print.attribute.standard.Destination;
+import java.util.Optional;
 
 /**
  *
@@ -18,6 +21,9 @@ import javax.print.attribute.standard.Destination;
 @Service
 public class PaymentValidationServiceImpl implements PaymentValidationService {
 
+    @Autowired
+    private PaymentConfig paymentConfig;
+
     /**
      *
      * @param sourceAccount
@@ -27,20 +33,28 @@ public class PaymentValidationServiceImpl implements PaymentValidationService {
      * This method will perform that if the payment request is allowed to proceed
      */
     @Override
-    public void validateAccountPaymentTransfer(AccountDetails sourceAccount,
-                                               AccountDetails destinationAccount,
+    public void validateAccountPaymentTransfer(Optional<AccountDetails> sourceAccount,
+                                               Optional<AccountDetails> destinationAccount,
                                                AccountPaymentTransferRequest request){
 
-        if (null == sourceAccount ){
+        // validate if source account exist
+        if (!sourceAccount.isPresent() ){
             throw new PaymentServiceException("Source Account Doesn't exist", ExceptionReason.INVALID_SOURCE_ACCOUNT);
         }
 
-        if (null == destinationAccount){
+        // validate if destination account exist
+        if (!destinationAccount.isPresent() ){
             throw new PaymentServiceException("Destination Account Doesn't exist", ExceptionReason.INVALID_DESTINATION_ACCOUNT);
         }
 
-        if (sourceAccount.getCurrentBalance() - request.getAmount() < 0){
-            throw new PaymentServiceException("Insuffecient Balance in Source account", ExceptionReason.INSUFFECIENT_BALANCE);
+        // validate min transfer amount
+        if(request.getAmount() < paymentConfig.getAccount().getMinTransferAmount()){
+            throw new PaymentServiceException("Requested Transfer amount in less than the min transfer limit", ExceptionReason.INVALID_TRANSFER_AMOUNT);
+        }
+
+        // validate if
+        if ( request.getAmount() > sourceAccount.get().getCurrentBalance()){
+            throw new PaymentServiceException("Insufficient Balance in Source account", ExceptionReason.INSUFFICIENT_BALANCE);
 
         }
 
