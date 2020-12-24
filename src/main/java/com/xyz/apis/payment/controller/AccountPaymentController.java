@@ -8,7 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @Api(tags = "AccountPaymentController", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,13 +22,16 @@ public class AccountPaymentController {
     @Autowired
     private AccountPaymentService accountPaymentService;
 
-    @PostMapping("/transfer")
+    @PostMapping("/")
     @ApiOperation("API to make account transfers")
     @ResponseStatus(HttpStatus.CREATED)
-    public void accountTransfer(@RequestBody AccountPaymentTransferRequest request){
+    public ResponseEntity<Void> accountTransfer(@RequestBody AccountPaymentTransferRequest request, UriComponentsBuilder builder){
         log.info("making account payments");
-        accountPaymentService.performAccountPayment(request);
+        Long transactionId = accountPaymentService.performAccountPayment(request);
             System.out.println("Making payments");
+
+            UriComponents uriComponents = builder.path("transactionId/{id}").buildAndExpand(transactionId);
+            return ResponseEntity.created(uriComponents.toUri()).build();
 
     }
 }

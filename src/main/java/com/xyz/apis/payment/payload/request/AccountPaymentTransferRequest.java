@@ -25,5 +25,8 @@ public class AccountPaymentTransferRequest {
     @ApiModelProperty("Currency")
     private Currency currency;
 
+    @ApiModelProperty("Remarks")
+    private String remarks;
+
 
 }

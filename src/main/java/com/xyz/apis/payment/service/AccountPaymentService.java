@@ -4,5 +4,5 @@ import com.xyz.apis.payment.payload.request.AccountPaymentTransferRequest;
 
 public interface AccountPaymentService {
 
-    public void performAccountPayment(AccountPaymentTransferRequest requests);
+    public Long performAccountPayment(AccountPaymentTransferRequest requests);
 }

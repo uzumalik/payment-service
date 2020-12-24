@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -25,15 +26,16 @@ public class AccountDetails extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ACCOUNT_NUMBER")
-    private long accountNumber;
+    @SequenceGenerator(name = "SEQ_ACCOUNT_NUMBER", allocationSize = 1)
+    private Long accountNumber;
 
     @Enumerated(EnumType.STRING)
     private Currency accountCurrency;
 
-    private long currentBalance;
+    private double currentBalance;
 
-    @OneToOne
-    @JoinColumn(foreignKey = @ForeignKey( name = "CUSTOMER_ID"), referencedColumnName = "CUSTOMER_ID")
-    private CustomerDetails customerDetails;
+    /*@OneToOne
+    @JoinColumn(foreignKey = @ForeignKey( name = "FK_CUSTOMER_ID"), referencedColumnName = "CUSTOMER_ID")
+    private CustomerDetails customer;*/
 
 }
