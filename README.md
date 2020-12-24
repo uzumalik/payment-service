@@ -14,7 +14,7 @@ use below arguments to activate profile on startup
 -Dspring.profiles.active=dev
 
 ### Run as dockerized application
-
+Run on the Terminal
 1. ./gradlew bootBuildImage   --- Build the image and store it in docker local registry
 
 2. docker run -p 9080:9080 -e "SPRING_PROFILES_ACTIVE=dev" --name payment-service payment-service:0.0.1-SNAPSHOT 
@@ -39,3 +39,4 @@ Docker needs to be installed.
 Health : http://localhost:9080/payments/actuator/health
 
 Info : http://localhost:9080/payments/actuator/info
+

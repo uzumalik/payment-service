@@ -4,10 +4,11 @@ import com.xyz.apis.payment.common.AccountTypes;
 import com.xyz.apis.payment.payload.request.AccountPaymentTransferRequest;
 import com.xyz.apis.payment.payload.response.AccountDetailsResponse;
 import com.xyz.apis.payment.persistence.entity.AccountDetails;
+import com.xyz.apis.payment.persistence.entity.AccountTransactions;
 
 public class MockedPayloads {
 
-    public static AccountPaymentTransferRequest getPatmentRequest(){
+    public static AccountPaymentTransferRequest getPaymentRequest(){
         AccountPaymentTransferRequest request = new AccountPaymentTransferRequest();
         request.setCustomerId(100l);
         request.setAmount(100l);
@@ -30,6 +31,15 @@ public class MockedPayloads {
                     .accountNumber(101l)
                     .accountType(AccountTypes.SAVINGS)
                  .build();
+    }
+
+    public static AccountTransactions getAccountTransactionEntity(){
+        AccountTransactions transaction = new AccountTransactions();
+
+        transaction.setId(1001l);
+        transaction.setStatus(1);
+        return transaction;
+
     }
 
 }

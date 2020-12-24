@@ -62,7 +62,7 @@ public class AccountPaymentControllerTest {
 
         Gson gson = new Gson();
 
-        AccountPaymentTransferRequest request = MockedPayloads.getPatmentRequest();
+        AccountPaymentTransferRequest request = MockedPayloads.getPaymentRequest();
         when(paymentService.performAccountPayment(request)).thenReturn(111l);
         mockMvc.perform(MockMvcRequestBuilders.post(ACCOUNT_TRANSFER_PATH)
                 .content(gson.toJson(request))
@@ -79,7 +79,7 @@ public class AccountPaymentControllerTest {
 
         when(paymentService.performAccountPayment(any(AccountPaymentTransferRequest.class))).thenReturn(111l);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(ACCOUNT_TRANSFER_PATH)
-                .content(gson.toJson(MockedPayloads.getPatmentRequest()))
+                .content(gson.toJson(MockedPayloads.getPaymentRequest()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         assertTrue(result.getResponse().getHeader("Location").contains("111"));
 
