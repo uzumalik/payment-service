@@ -5,6 +5,7 @@ import com.xyz.apis.payment.exception.PaymentServiceException;
 import com.xyz.apis.payment.payload.request.AccountPaymentTransferRequest;
 import com.xyz.apis.payment.persistence.entity.AccountDetails;
 import com.xyz.apis.payment.service.PaymentValidationService;
+import org.springframework.stereotype.Service;
 
 import javax.print.attribute.standard.Destination;
 
@@ -14,6 +15,7 @@ import javax.print.attribute.standard.Destination;
  *
  * This class perform payment validations
  */
+@Service
 public class PaymentValidationServiceImpl implements PaymentValidationService {
 
     /**
