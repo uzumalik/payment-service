@@ -4,17 +4,7 @@ import com.xyz.apis.payment.common.Currency;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ACCOUNT_DETAILS")
@@ -27,6 +17,7 @@ public class AccountDetails extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ACCOUNT_NUMBER")
     @SequenceGenerator(name = "SEQ_ACCOUNT_NUMBER", allocationSize = 1)
+    @Column(name = "ACCOUNT_NUMBER")
     private Long accountNumber;
 
     @Enumerated(EnumType.STRING)
@@ -34,8 +25,8 @@ public class AccountDetails extends BaseEntity {
 
     private double currentBalance;
 
-    /*@OneToOne
-    @JoinColumn(foreignKey = @ForeignKey( name = "FK_CUSTOMER_ID"), referencedColumnName = "CUSTOMER_ID")
-    private CustomerDetails customer;*/
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private CustomerDetails customer;
 
 }
