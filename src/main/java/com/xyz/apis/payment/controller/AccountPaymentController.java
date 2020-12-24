@@ -9,14 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 @RestController
 @Api(tags = "AccountPaymentController", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequestMapping(path = "/accounts")
 @Slf4j
+@Validated
 public class AccountPaymentController {
 
     @Autowired
@@ -25,12 +29,12 @@ public class AccountPaymentController {
     @PostMapping("/transfer")
     @ApiOperation("API to make account transfers")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> accountTransfer(@RequestBody AccountPaymentTransferRequest request, UriComponentsBuilder builder){
+    public ResponseEntity<Void> accountTransfer(@RequestBody @Valid AccountPaymentTransferRequest request, UriComponentsBuilder builder){
         log.info("making account payments");
         Long transactionId = accountPaymentService.performAccountPayment(request);
             System.out.println("Making payments");
 
-            UriComponents uriComponents = builder.path("transactionId/{id}").buildAndExpand(transactionId);
+            UriComponents uriComponents = builder.path("/transactionId/{id}").buildAndExpand(transactionId);
             return ResponseEntity.created(uriComponents.toUri()).build();
 
     }

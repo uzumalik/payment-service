@@ -8,13 +8,21 @@ import com.xyz.apis.payment.persistence.repository.AccountTransactionsRepository
 import com.xyz.apis.payment.service.AccountPaymentService;
 import com.xyz.apis.payment.service.PaymentValidationService;
 import com.xyz.apis.payment.service.mapper.AccountPaymentsMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+/**
+ * @author Mohammad Uzair
+ * This class manages account payments
+ *
+ */
+
 @Service
+@Slf4j
 public class AccountPaymentServiceImpl implements AccountPaymentService {
 
     @Autowired
@@ -41,13 +49,16 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
     @Transactional
     public Long performAccountPayment(AccountPaymentTransferRequest request) {
 
-
+        log.info("processing account transfer request");
         Optional<AccountDetails> sourceAccount = accountRepository.findById(request.getSourceAccount());
         Optional<AccountDetails> destinationAccount = accountRepository.findById(request.getDestinationAccount());
 
         paymentValidationService.validateAccountPaymentTransfer(sourceAccount, destinationAccount, request);
+        log.info("Request has been validated");
 
         // If payment validation successful, perform transfer
+        // Assuming that payment service can access core system DBs directly which will not be case in real life
+
         // Debit the amount from source account
         sourceAccount.ifPresent( srcAccount ->{
             srcAccount.setCurrentBalance(srcAccount.getCurrentBalance() - request.getAmount());
@@ -60,9 +71,14 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             destAccount.setCurrentBalance(destAccount.getCurrentBalance() + request.getAmount());
             accountRepository.save(destAccount);
         });
+        log.info("Amount transferred, putting entry into transactions");
 
         // PUT an entry into transaction table
         AccountTransactions transaction =  accountTransactionsRepository.save(accountPaymentsMapper.toAccountTransactionEntity(request));
+
+        //TODO
+        //send  notifications to customer
+
         return transaction.getId();
 
 

@@ -1,0 +1,35 @@
+package com.xyz.apis.payment.helper;
+
+import com.xyz.apis.payment.common.AccountTypes;
+import com.xyz.apis.payment.payload.request.AccountPaymentTransferRequest;
+import com.xyz.apis.payment.payload.response.AccountDetailsResponse;
+import com.xyz.apis.payment.persistence.entity.AccountDetails;
+
+public class MockedPayloads {
+
+    public static AccountPaymentTransferRequest getPatmentRequest(){
+        AccountPaymentTransferRequest request = new AccountPaymentTransferRequest();
+        request.setCustomerId(100l);
+        request.setAmount(100l);
+        request.setSourceAccount(1001l);
+        request.setDestinationAccount(1002l);
+        return request;
+    }
+
+    public static AccountDetails getAccountDetailsEntity(){
+        AccountDetails acc = new AccountDetails();
+        acc.setCurrentBalance(1000l);
+        acc.setAccountNumber(101l);
+        acc.setAccountType(AccountTypes.SAVINGS);
+        return acc;
+    }
+
+    public static AccountDetailsResponse getAccountDetailsResponse(){
+         return AccountDetailsResponse.builder()
+                 .currentBalance(1000l)
+                    .accountNumber(101l)
+                    .accountType(AccountTypes.SAVINGS)
+                 .build();
+    }
+
+}
