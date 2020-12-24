@@ -14,10 +14,10 @@ import org.springframework.validation.annotation.Validated;
 public class AccountPaymentTransferRequest {
 
     @ApiModelProperty("Source Account")
-    private String sourceAccount;
+    private Long sourceAccount;
 
     @ApiModelProperty("Destination Account")
-    private String destinationAccount;
+    private Long destinationAccount;
 
     @ApiModelProperty("Payment amount")
     private double amount;

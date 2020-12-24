@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,6 +24,7 @@ public class CustomerDetails extends BaseEntity {
 
     private static final long serialVersionUID = 8887101398822362433L;
 
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CUSTOMER_ID")
     private long customerId;
 
@@ -32,11 +34,13 @@ public class CustomerDetails extends BaseEntity {
 
     private String middleName;
 
+    private String LastName;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "customer")
-    private AccountEntity accountEntity;
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "customerDetails")
+    private AccountDetails accountDetails;
 
 
 }
