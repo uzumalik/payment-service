@@ -12,9 +12,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.List;
 
 
 @Entity
@@ -41,8 +43,9 @@ public class CustomerDetails extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    /*@OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "customer")
-    private AccountDetails accountDetails;*/
+    // Customer can hold multiple accounts
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "customer")
+    private List<AccountDetails> accountDetails;
 
 
 }

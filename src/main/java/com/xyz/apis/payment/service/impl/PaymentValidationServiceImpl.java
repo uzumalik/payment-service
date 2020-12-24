@@ -6,6 +6,7 @@ import com.xyz.apis.payment.exception.PaymentServiceException;
 import com.xyz.apis.payment.payload.request.AccountPaymentTransferRequest;
 import com.xyz.apis.payment.persistence.entity.AccountDetails;
 import com.xyz.apis.payment.service.PaymentValidationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,12 @@ import java.util.Optional;
  * This class perform payment validations
  */
 @Service
+@Slf4j
 public class PaymentValidationServiceImpl implements PaymentValidationService {
 
     @Autowired
     private PaymentConfig paymentConfig;
+
 
     /**
      *
@@ -37,11 +40,18 @@ public class PaymentValidationServiceImpl implements PaymentValidationService {
                                                Optional<AccountDetails> destinationAccount,
                                                AccountPaymentTransferRequest request){
 
+
         // validate if source account exist
         if (!sourceAccount.isPresent() ){
             throw new PaymentServiceException("Source Account Doesn't exist", ExceptionReason.INVALID_SOURCE_ACCOUNT);
         }
 
+        // Validate if source account belongs to the customer
+        AccountDetails srcAccount = sourceAccount.get();
+        if (!srcAccount.getCustomer().getCustomerId().equals(request.getCustomerId())){
+            throw new PaymentServiceException("Source Account doesn't belongs to customer", ExceptionReason.INVALID_SOURCE_ACCOUNT);
+
+        }
         // validate if destination account exist
         if (!destinationAccount.isPresent() ){
             throw new PaymentServiceException("Destination Account Doesn't exist", ExceptionReason.INVALID_DESTINATION_ACCOUNT);

@@ -41,6 +41,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	runtime 'com.h2database:h2:1.3.176'
+
+	// javax validation
+	// https://mvnrepository.com/artifact/javax.validation/validation-api
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
 }
 
 test {
