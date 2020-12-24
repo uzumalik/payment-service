@@ -22,7 +22,7 @@ public class AccountPaymentController {
     @Autowired
     private AccountPaymentService accountPaymentService;
 
-    @PostMapping("/")
+    @PostMapping("/transfer")
     @ApiOperation("API to make account transfers")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> accountTransfer(@RequestBody AccountPaymentTransferRequest request, UriComponentsBuilder builder){

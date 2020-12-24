@@ -1,5 +1,6 @@
 package com.xyz.apis.payment.persistence.entity;
 
+import com.xyz.apis.payment.common.AccountTypes;
 import com.xyz.apis.payment.common.Currency;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +35,12 @@ public class AccountDetails extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Currency accountCurrency;
 
+    @Enumerated(EnumType.STRING)
+    private AccountTypes accountType;
+
+
     private double currentBalance;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID")

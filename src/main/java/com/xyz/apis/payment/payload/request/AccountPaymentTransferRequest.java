@@ -17,24 +17,24 @@ import javax.validation.constraints.NotNull;
 public class AccountPaymentTransferRequest {
 
     @NotNull
-    @ApiModelProperty("Customer Id")
+    @ApiModelProperty(value = "Customer Id",example = "100")
     private Long customerId;
 
     @NotNull
-    @ApiModelProperty("Source Account")
+    @ApiModelProperty(value = "Source Account",example = "1001")
     private Long sourceAccount;
 
     @NotNull
-    @ApiModelProperty("Destination Account")
+    @ApiModelProperty(value = "Destination Account",example = "1002")
     private Long destinationAccount;
 
-    @ApiModelProperty("Payment amount")
+    @ApiModelProperty(value = "Payment amount",example = "100")
     private double amount;
 
-    @ApiModelProperty("Currency")
+    @ApiModelProperty(value = "Currency",example = "AED")
     private Currency currency;
 
-    @ApiModelProperty("Remarks")
+    @ApiModelProperty(value = "Remarks",example = "Remarks")
     private String remarks;
 
 
